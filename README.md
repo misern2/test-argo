@@ -2,3 +2,27 @@
 
 Project prova
 
+# Deplopyment test argo:
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-helm-demo
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/EL_TEU_USUARI/argocd-helm-demo
+    targetRevision: main
+    path: chart/nginx
+    helm:
+      valueFiles:
+        - ../../values/dev.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-helm
+
+  syncPolicy:
+    automated: null
